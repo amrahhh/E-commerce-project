@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load static custom_tags i18n %}
+
+{% block title %}{% trans 'Single-blog' %}{% endblock %}
+
+{% block js%}
+<script>
+	$(document).ready(function () {
+		$(document).on("click", ".reply-comment", function (event) {
+			event.preventDefault();
+			let comment_id = $(this).attr('comment_id');
+			$('#id_parent_comment').val(comment_id);
+			console.log(comment_id);
+
+		});
+	});
+</script>
+<script type="text/javascript">
+	function myFunction() {
+		var x = document.getElementById("myDIV");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}	
+</script>
+<script type="text/javascript">
+	function myFunction2() {
+		var x = document.getElementById("myDIV2");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}	
+</script>
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>{% trans 'fashion style fine arts drawing' %}</h2>
+					<ul class="text-left">
+						<li><a href="{% url 'home:home' %}">{% trans 'Home' %}</a></li>
+						<li><span> // </span><a href="{% url 'blog:blog' %}">{% trans 'blog' %}</a></li>
+						<li><span> // </span>{% trans 'fashion style fine arts drawing' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- blog-section-start -->
+<section class="pages blog single-blog-area section-padding-top">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-md-9">
+				<div class="single-blog-page">
+					<div class="single-blog-img">
+						{% if blog_details.cover_image %}
+						<img src="{{blog_details.cover_image.url}}" alt="" />
+						{% endif %}
+					</div>
+					<div class="padding30">
+						<div class="blog-text">
+							<div class="post-title">
+								<h3>{{blog_details.title}}</h3>
+								<ul class="clearfix">
+									<li><i class="pe-7s-user"></i>By :<a href="#">
+											{{blog_details.author_name}}</a><span>|</span></li>
+									<li><i class="pe-7s-comment"></i><a href="#">{{blog_details.created_at|date:'M d,Y'}}</a><span>|</span></li>
+									<li><i class="pe-7s-like"></i><a href="#">210 Like</a><span>|</span></li>
+									<li><i class="pe-7s-back"></i><a href="#">{{blog_details.comment.count}} Comments</a></li>
+								</ul>
+							</div>
+							<p>{{blog_details.description}}</p>
+							<div class="share-tag clearfix">
+								<ul class="blog-share floatleft">
+									<li>
+										<h5>{% trans 'share' %} </h5>
+									</li>
+									<li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+									<li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+									<li><a href="#"><i class="mdi mdi-linkedin"></i></a></li>
+									<li><a href="#"><i class="mdi mdi-vimeo"></i></a></li>
+									<li><a href="#"><i class="mdi mdi-dribbble"></i></a></li>
+									<li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+								</ul>
+							</div>
+							<div style='margin-top:50px'>
+								<h4>{{blog_details.comment.count}} {% trans 'Comments' %}</h4>
+							</div>
+
+							{% for comment in parent_comments %}
+							<div class="about-author comments" style='padding-top: 10px;' id="myDIV">
+								<div class="autohr-text">
+									<img src="img/blog/author2.png" alt="" />
+									<div class="author-des">
+										<h4><a href="#">{{ comment.user.username }}</a></h4>
+										<span class="floatright"><a href="#reply-id" class="reply-comment" 
+											comment_id="{{comment.id}}">Reply</a> / <a href="#"
+											onclick="myFunction()">Hide</a></span>
+										<span>{{comment.created_at|date:'d M, Y f a'}}</span>
+										<p>{{comment.message}}</p>
+									</div>
+								</div>
+							</div>
+
+							{% for reply in comment.sub_comments.all %}
+							<div class="about-author reply" style='padding-top: 5px;' id="myDIV2">
+								<div class="autohr-text">
+									<img src="img/blog/author3.png" alt="" />
+									<div class="author-des">
+										<h4><a href="#">{{ reply.user.username }}</a></h4>
+										<span class="floatright"><a href="#reply-id" class="reply-comment"
+											comment_id="{{comment.id}}">Reply</a> / <a href="#"
+											onclick="myFunction2()">Hide</a></span>
+										<span id="foo">{{reply.created_at|date:'d M, Y f a'}}</span>
+										<p id="foo">{{reply.message}}</p>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							{% endfor %}
+
+
+						</div>
+						<div class="leave-comment" id="reply-id">
+							<h4>{% trans 'leave your review' %}</h4>
+							<form action="" method="post">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col-xs-12 col-sm-6">
+										<div class="input-text">
+											{{form.title}}
+											{% for error in form.title.errors %}
+											<li class="alert-danger">{{ error }}</li>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<div class="input-text">
+											{{form.email}}
+											{% for error in form.email.errors %}
+											<li class="alert-danger">{{ error }}</li>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="col-xs-12">
+										<div class="input-text">
+											{{form.message}}
+											{% for error in form.message.errors %}
+											<li class="alert-danger">{{ error }}</li>
+											{% endfor %}
+										</div>
+										{{form.parent_comment}}
+									</div>
+									<div class="col-xs-12">
+										<div class="submit-text">
+											<button type="submit" value="submit form">{% trans 'submit comments' %}</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- single post end -->
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-3">
+				<div class="sidebar left-sidebar">
+					<div class="s-side-text">
+						<div class="sidebar-title clearfix">
+							<h4 class="floatleft">{% trans 'Categories' %}</h4>
+							<h5 class="floatright"><a href="#">{% trans 'All' %}</a></h5>
+						</div>
+						<div class="categories left-right-p">
+							<ul id="accordion" class="panel-group clearfix">
+								{% for category in published_categories %}
+								<li class="panel">
+									<div data-toggle="collapse" data-parent="#accordion"
+										data-target="#collapse{{category.id}}">
+										<div class="medium-a">
+											{{category.title}}
+										</div>
+									</div>
+									<div class="panel-collapse collapse" id="collapse{{category.id}}">
+										<div class="normal-a">
+											{% for item in category.sub_blog_category.all %}
+											<a href="#">{{item}}</a>
+											{% endfor %}
+										</div>
+									</div>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="s-side-text">
+						<div class="sidebar-title clearfix">
+							<h4 class="floatleft">{% trans 'recent post' %}</h4>
+						</div>
+						<div class="recent-post clearfix">
+							<ul>
+								{% for item in recent_blog %}
+								<li>
+									<a href="#"><img src="{{item.little_image.url}}" alt="" /></a>
+									<h5><a href="#">{{item.title}}'s fashion</a></h5>
+									<span>{{item.created_at|date:'M d,Y'}}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="s-side-text">
+						<div class="banner clearfix">
+							<a href="#"><img src="{% static 'assets/img/products/banner.jpg'%}" alt="" /></a>
+							<div class="banner-text">
+								<h2>{% trans 'best' %}</h2> <br />
+								<h2 class="banner-brand">{% trans 'brand' %}</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- blog section end -->
+<!-- related post section start -->
+<section class="related-post latest-blog section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="section-title text-center">
+					<h2>{% trans 'Related Post' %}</h2>
+				</div>
+			</div>
+		</div>
+		<ul class="blog-row">
+			{% for blog in related_post %}
+			<li>
+				<div class="row" style="width: 100%;">
+					<div class="col-sm-4" style="width: 100%;">
+						<div class="l-blog-text">
+							<div class="banner"><a href="{% url 'blog:single_page' blog.slug  %}"><img src="{{blog_details.image.url}}" alt="" /></a>
+							</div>
+							<div class="s-blog-text">
+								<h4><a href="{% url 'blog:single_page' blog.slug  %}">{{blog.title}}</a></h4>
+								<span>By : <a href="#">{{blog.author_name}}</a> | <a href="#">210 {% trans 'Like' %}</a> | <a
+										href="#">{{blog_details.comment.count}} {% trans 'Comments' %}</a></span>
+								<p>{{blog.short_description}}</p>
+							</div>
+							<div class="date-read clearfix">
+								<a href="#"><i class="mdi mdi-clock"></i>{{blog.created_at|date:'M d,Y'}}</a>
+								<a href="{% url 'blog:single_page' blog.slug %}">{% trans 'read more' %}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</section>
+<!-- related post section end -->
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans 'Cart' %}{% endblock %}
+
+{% block content %}
+
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>{% trans 'Cart' %}</h2>
+					<ul class="text-left">
+						<li><a href="{% url 'home:home' %}">{% trans 'Home' %}</a></li>
+						<li><span> // </span>{% trans 'Cart' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- cart content section start -->
+<section class="pages cart-page section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="table-responsive padding60">
+					<table class="wishlist-table text-center">
+						<thead>
+							<tr>
+								<th>{% trans 'Product' %}</th>
+								<th>{% trans 'Price' %}</th>
+								<th>{% trans 'quantity' %}</th>
+								<th>{% trans 'Total Price' %}</th>
+								<th>{% trans 'Remove' %}</th>
+							</tr>
+						</thead>
+						<tbody id="cartList">
+														
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-top">
+			<div class="col-sm-12">
+				<div class="single-cart-form padding60">
+					<div class="log-title">
+						<h3><strong>{% trans 'payment details' %}</strong></h3>
+					</div>
+					<div class="cart-form-text pay-details table-responsive">
+						<table>
+							<tbody>
+								<tr>
+									<th>{% trans 'Cart Subtotal' %}</th>
+									<td>$155.00</td>
+								</tr>
+								<tr>
+									<th>{% trans 'Shipping and Handing' %}</th>
+									<td>$15.00</td>
+								</tr>
+								<tr>
+									<th>{% trans 'Vat' %}</th>
+									<td>$00.00</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th class="tfoot-padd">{% trans 'Order total' %}</th>
+									<td class="tfoot-padd">$170.00</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- cart content section end -->
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'assets/js/includecart.js'%}"></script>
+{% endblock %}

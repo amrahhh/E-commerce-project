@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans 'Blog' %}{% endblock %}
+
+{% block content %}
+
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>{% trans 'Blog' %}</h2>
+					<ul class="text-left">
+						<li><a href="{% url 'home:home' %}">{% trans 'Home' %}</a></li>
+						<li><span> // </span>{% trans 'Blog' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- blog section start -->
+<section class="latest-blog section-padding">
+	<div class="container">
+		<ul class="blog-row clearfix">
+			{% for blog in post_list %}
+			<li>
+				<div class="row" style="width: 100%;">
+					<div class="col-sm-4" style="width: 100%;">
+						<div class="l-blog-text">
+							<div class="banner"><a href="{% url 'blog:single_page' blog.slug  %}"><img src="{{blog.image.url}}" alt="" /></a></div>
+							<div class="s-blog-text">
+								<h4><a href="{% url 'blog:single_page' blog.slug  %}">{{blog.title}}</a></h4>
+								<span>By : <a href="#">{{blog.author_name}}</a> | <a href="#">210 {% trans 'Like' %}</a> | <a
+										href="#">{{blog.comment.count}} {% trans 'Comments' %}</a></span>
+								<p>{{blog.short_description}}</p>
+							</div>
+							<div class="date-read clearfix">
+								<a href="#"><i class="mdi mdi-clock"></i>{{blog.created_at|date:'M d,Y'}}</a>
+								<a href="{% url 'blog:single_page' blog.slug  %}">{% trans 'read more' %}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		<div class="pagnation-ul">
+			<ul class="clearfix">
+				{% if page_obj.has_previous %}
+				<li><a href="?page={{ page_obj.previous_page_number }}"><i class="mdi mdi-menu-left"></i></a></li>
+				{% endif %}
+				{% for page in page_obj.paginator.page_range %}
+				{% if page is page_obj.number %}
+				<li><a class="active">{{page}}</a></li>
+				{% else %}
+				<li><a href="?page={{ page }}">{{page}}</a></li>
+				{% endif %}
+				{% endfor %}
+				{% if page_obj.has_next %}
+				<li><a href="?page={{ page_obj.next_page_number }}"><i class="mdi mdi-menu-right"></i></a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</section>
+<!-- blog section end -->
+
+{% endblock %}

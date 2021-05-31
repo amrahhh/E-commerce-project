@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans 'Checkout' %}{% endblock %}
+
+{% block content %}
+
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>{% trans 'Checkout' %}</h2>
+					<ul class="text-left">
+						<li><a href="{% url 'home:home' %}">{% trans 'Home' %} </a></li>
+						<li><span> // </span>{% trans 'Checkout' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- Checkout content section start -->
+<section class="pages checkout section-padding">
+	<div class="container">
+		<div class="row">
+			<form action="" method="post">
+				{% csrf_token %}
+				<div class="col-sm-6">
+					<div class="main-input single-cart-form padding60">
+						<div class="log-title">
+							<h3><strong>{% trans 'billing details' %}</strong></h3>
+						</div>
+						<div class="custom-input">
+							{{form.title}}
+							{{form.enter}}
+							{{form.phone_number}}
+							{{form.company}}
+							<div class="custom-select">
+								{{form.country}}
+							</div>
+							<div class="custom-select">
+								{{form.state}}
+							</div>
+							<div class="custom-select">
+								{{form.city}}
+							</div>
+							<div class="custom-mess">
+								{{form.address}}
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						<div class="padding60">
+							<div class="log-title">
+								<h3><strong>{% trans 'Our order' %}</strong></h3>
+							</div>
+							<div class="cart-form-text pay-details table-responsive">
+								<table>
+									<thead>
+										<tr>
+											<th>{% trans 'Product' %}</th>
+											<td>{% trans 'Total' %}</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Men’s White Shirt x 2</th>
+											<td>$86.00</td>
+										</tr>
+										<tr>
+											<th>Men’s Black Shirt x 1</th>
+											<td>$69.00</td>
+										</tr>
+										<tr>
+											<th>Cart Subtotal</th>
+											<td>$155.00</td>
+										</tr>
+										<tr>
+											<th>Shipping and Handing</th>
+											<td>$15.00</td>
+										</tr>
+										<tr>
+											<th>Vat</th>
+											<td>$00.00</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<th>Order total</th>
+											<td>$325.00</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						<div class="padding60">
+							<div class="submit-text">
+								<input type="submit" value="PLACE ORDER">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+</section>
+<!-- Checkout content section end -->
+
+{% endblock %}

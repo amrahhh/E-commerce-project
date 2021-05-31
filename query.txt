@@ -1,0 +1,35 @@
+from blog.models import *
+from product.models import *
+from django.db.models import Count, Q
+
+blog_post = Blog_post.objects.all().order_by('-created_at')[:9]
+
+product = Product.objects.all().order_by('-created_at')[:8]
+
+Blog_post.objects.values('category__title') 
+
+blog_post = Blog_post.objects.get(id=1)
+blog_post.comment.all().values('title')
+
+Blog_post.objects.filter(Q(title__icontains = 's') | Q(description__icontains = 's'))
+
+blog_post = Blog_post.objects.all().order_by('-created_at')[:3]
+
+Product.objects.order_by('price', 'created_at')
+
+Product.objects.filter(Q(title__icontains = 'p') | Q(description__icontains = 'p'))
+
+Product_tag.objects.annotate(Count('product_taglar__title')).order_by('-product_taglar__title__count')[:5]
+
+product = Product.objects.get(id=1)
+product.review.all().values('title')
+
+Product.objects.annotate(Count('products__title')).order_by('-products__title__count')[:4]
+
+product1 = Product.objects.get(title='product1')
+products = Product.objects.all()
+products.filter(category = product1.category)
+
+Product.objects.values('category__title')
+
+Product.objects.filter(category__title='T-shirt')

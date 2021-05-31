@@ -1,0 +1,36 @@
+from account.models import *
+from blog.models import *
+from contact.models import *
+from product.models import *
+
+size1 = Size.objects.create(title='X')
+size1 = Size.objects.get(id=1)
+
+category1 = Category.objects.create(title='T-shirt', price= 6.99, color = 'yellow', brand='Gucci')
+category1 = Category.objects.get(id=1)
+
+product1 = Product.objects.create(title='ahdhsad', image='sdasd.png', slug='slug', short_description='sasds', description='sddasddsa', price=6.99, category=category1)
+product1 = Product.objects.get(id=1)
+
+review1 = Review.objects.create(title='dasd', rating=2.2, message= 'sadasdasdas', product=product1)
+review1 = Review.objects.get(id=1)
+
+blog_post1 = Blog_post.objects.create(title='sdsada', author_name='ssadas', image='dsadads.png', short_description='dssasad', description='sadsadsadsdsad')
+blog_post1 = Blog_post.objects.get(id=1)
+
+comment1 = Comment.objects.create(title='dasdas', message='dasdasdasdsadsdsda', blog_post = blog_post1)
+comment1 = Comment.objects.get(id=1)
+
+tag1 = Tag.objects.create(title='Travel')
+tag1 = Tag.objects.get(id=1)
+
+subscriber1 = Subscriber.objects.create(email = 'subscriber@gmail.com')
+subscriber1 = Subscriber.objects.get(id=1)
+
+contact1 = Contact.objects.create(lat=22.2222, long = 22.2222, phone_number ='342423432432', email = 'sdsad@gmail.com')
+contact1 = Contact.objects.get(id=1)
+
+
+
+
+

@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static account_tags i18n %}
+
+{% block title %}{% trans 'Login' %}{% endblock %}
+
+{% block 'css' %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<style>
+	/* The snackbar - position it at the bottom and in the middle of the screen */
+	#snackbar {
+		visibility: hidden;
+		/* Hidden by default. Visible on click */
+		min-width: 250px;
+		/* Set a default minimum width */
+		margin-left: -125px;
+		/* Divide value of min-width by 2 */
+		background-color: #333;
+		/* Black background color */
+		color: #fff;
+		/* White text color */
+		text-align: center;
+		/* Centered text */
+		border-radius: 2px;
+		/* Rounded borders */
+		padding: 16px;
+		/* Padding */
+		position: fixed;
+		/* Sit on top of the screen */
+		z-index: 1;
+		/* Add a z-index if needed */
+		left: 50%;
+		/* Center the snackbar */
+		bottom: 30px;
+		/* 30px from the bottom */
+	}
+
+	/* Show the snackbar when clicking on a button (class added with JavaScript) */
+	#snackbar.show {
+		visibility: visible;
+		/* Show the snackbar */
+		/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+		-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+		animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	}
+
+	/* Animations to fade the snackbar in and out */
+	@-webkit-keyframes fadein {
+		from {
+			bottom: 0;
+			opacity: 0;
+		}
+
+		to {
+			bottom: 30px;
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadein {
+		from {
+			bottom: 0;
+			opacity: 0;
+		}
+
+		to {
+			bottom: 30px;
+			opacity: 1;
+		}
+	}
+
+	@-webkit-keyframes fadeout {
+		from {
+			bottom: 30px;
+			opacity: 1;
+		}
+
+		to {
+			bottom: 0;
+			opacity: 0;
+		}
+	}
+
+	@keyframes fadeout {
+		from {
+			bottom: 30px;
+			opacity: 1;
+		}
+
+		to {
+			bottom: 0;
+			opacity: 0;
+		}
+	}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>{% trans 'Register' %}</h2>
+					<ul class="text-left">
+						<li><a href="{% url 'home:home' %}">{% trans 'Home' %}</a></li>
+						<li><span> // </span>{% trans 'Register' %}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- login content section start -->
+<section class="pages login-page section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="main-input padding60">
+					<div class="log-title">
+						<h3><strong>{% trans 'registered customers' %}</strong></h3>
+					</div>
+					<div class="login-text">
+						<div class="custom-input">
+							<p>{% trans 'If you have an account with us, Please log in' %}!</p>
+							<form action="{% url 'account:login' %}" id="login-form" method="post">
+								<input type="text" name="username" placeholder="Email" />
+								<input type="password" name="password" placeholder="Password" />
+								<span style="display: flex; justify-content: space-between;">
+									<a class="forget" href="{% url 'account:reset_password' %}">{% trans 'Forgot your password' %}?</a>
+									<a class="forget" href="{% url 'account:change_password' %}">{% trans 'Change password' %}?</a>
+								</span>
+								<div class="submit-text">
+									<input type="submit" value="{% trans 'Login' %}">
+								</div>
+								<div class="form-group" style="display: flex; justify-content: center;">
+									<a href="{% url 'social:begin' 'facebook' %}" class="social" style="width: 10%;"><i
+											class="fab fa-facebook"></i></a>
+									<a href="{% url 'social:begin' 'google-oauth2' %}" class="social"><i
+											class="fab fa-google-plus"></i></a>
+								</div>
+								<div id="snackbar"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="main-input padding60 new-customer">
+					<div class="log-title">
+						<h3><strong>{% trans 'new customers' %}</strong></h3>
+					</div>
+					<div class="custom-input">
+						<form action="{% url 'account:register' %}" enctype="multipart/form-data" method="post">
+							{% get_register as registerform %}
+							{{ registerform.non_field_errors }}
+							{% csrf_token %}
+							{% for field in registerform %}
+							<div class="form-group">
+								{{ field }}
+								{% for error in field.errors %}
+								<li class="alert-danger alert">{{ error }}</li>
+								{% endfor %}
+							</div>
+							{% endfor %}
+							<div class="submit-text coupon">
+								<input type="submit" value="{% trans 'Register' %}">
+							</div>
+							<div class="form-group" style="display: flex; justify-content: center;">
+								<a href="{% url 'social:begin' 'facebook' %}" class="social" style="width: 10%;"><i
+										class="fab fa-facebook"></i></a>
+								<a href="{% url 'social:begin' 'google-oauth2' %}" class="social"><i
+										class="fab fa-google-plus"></i></a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- login content section end -->
+
+{% endblock %}
+
+{% block js %}
+	<script src="{% static 'assets/js/login-form.js'%}"></script>
+{% endblock %}

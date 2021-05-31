@@ -1,0 +1,196 @@
+{% load static contact_tags account_tags alliance_tags i18n %}
+<footer class="footer-two">
+	<!-- brand logo area start -->
+	<div class="brand-logo">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="barnd-bg">
+						{% get_alliance as alliance %}
+						{% for item in alliance %}
+							<a href="{{item.url}}"><img src="{{ item.image.url }}" alt="Brand Logo" /></a>
+						{% endfor %}
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- brand logo section end -->
+	<!-- social media section start -->
+	<div class="social-media section-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="newsletter newsletter2">
+						<h3>{% trans 'newsletter' %}</h3>
+						<form action="{% url 'account:subscriber' %}" method="post">
+							{% csrf_token %}
+							{% get_subs as subs %}
+							<div class="form-group">
+								{{ subs.email }}
+								{% for error in field.errors %}
+								<li class="alert-danger">{{ error }}</li>
+								{% endfor %}
+							</div>
+							<input type="submit" value="{% trans 'subscribe' %}" />
+						</form>
+					</div>
+					<div class="social-icons">
+						<a href="#"><i class="mdi mdi-facebook"></i></a>
+						<a href="#"><i class="mdi mdi-twitter"></i></a>
+						<a href="#"><i class="mdi mdi-google-plus"></i></a>
+						<a href="#"><i class="mdi mdi-dribbble"></i></a>
+						<a href="#"><i class="mdi mdi-rss"></i></a>
+					</div>
+				</div>
+				{% get_form as form %}
+				<div class="col-sm-6 col-md-offset-1 col-md-5">
+					<div class="newsletter get-touch">
+						<h3>{% trans 'get in touch' %}</h3>
+						<form method="post" action="{% url 'contact:contact' %}">
+							{% csrf_token %}
+							{% for field in form %}
+							<div class="form-group">
+								{{ field }}
+								
+								{% for error in field.errors %}
+								<li class="alert-danger">{{ error }}</li>
+								{% endfor %}
+							</div>
+							{% endfor %}
+							<input type="submit" value="{% trans 'send your message' %}" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- social media section end -->
+	<!-- footer-top area start -->
+	<div class="footer-top section-padding">
+		<div class="footer-dsc">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="single-text">
+							<div class="footer-title">
+								<h4>{% trans 'contact us' %}</h4>
+							</div>
+							<div class="footer-text">
+								<ul>
+									<li>
+										<i class="mdi mdi-map-marker"></i>
+										<p>Flat no 01, House no 02, Vincent,</p>
+										<p>Dhaka-1207, Bangladesh</p>
+									</li>
+									<li>
+										<i class="mdi mdi-phone"></i>
+										<p>(+880) 19453 821758</p>
+										<p>(+880) 19453 813758</p>
+									</li>
+									<li>
+										<i class="mdi mdi-email"></i>
+										<p>info@mydomain.com</p>
+										<p>username@email.com</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-2 wide-mobile">
+						<div class="single-text">
+							<div class="footer-title">
+								<h4>{% trans 'My Account' %}</h4>
+							</div>
+							<div class="footer-menu">
+								<ul>
+									<li><a href="{% url 'account:account' %}"><i class="mdi mdi-menu-right"></i>{% trans 'My account' %}</a></li>
+									<li><a href="{% url 'checkout:wishlist' %}"><i class="mdi mdi-menu-right"></i>{% trans 'My wishlist' %}</a></li>
+									<li><a href="{% url 'checkout:cart' %}"><i class="mdi mdi-menu-right"></i>{% trans 'My cart' %}</a></li>
+									<li><a href="{% url 'account:login' %}"><i class="mdi mdi-menu-right"></i>{% trans 'Sign in' %}</a></li>
+									<li><a href="{% url 'checkout:checkout' %}"><i class="mdi mdi-menu-right"></i>{% trans 'Checkout' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Track My Order' %}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-2 wide-mobile">
+						<div class="single-text">
+							<div class="footer-title">
+								<h4>{% trans 'shipping' %}</h4>
+							</div>
+							<div class="footer-menu">
+								<ul>
+									<li><a href="contact.html"><i class="mdi mdi-menu-right"></i>{% trans 'New Products' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Top Sellers' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Manufactirers' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Suppliers' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Specials' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Availability' %}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-2 r-margin-top wide-mobile">
+						<div class="single-text">
+							<div class="footer-title">
+								<h4>{% trans 'Information' %}</h4>
+							</div>
+							<div class="footer-menu">
+								<ul>
+									<li><a href="contact.html"><i class="mdi mdi-menu-right"></i>{% trans 'Return Exchange' %}</a>
+									</li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Fast Delivery' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Online Shopping' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Shipping Guide' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Turn Of Use' %}</a></li>
+									<li><a href="#"><i class="mdi mdi-menu-right"></i>{% trans 'Home Delivery' %}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top wide-mobile">
+						<div class="single-text">
+							<div class="footer-title">
+								<h4>instagram</h4>
+							</div>
+							<div class="clearfix instagram">
+								<ul>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in1.png'%}"
+												alt="Instagram" /></a></li>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in2.png'%}"
+												alt="Instagram" /></a></li>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in3.png'%}"
+												alt="Instagram" /></a></li>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in4.png'%}"
+												alt="Instagram" /></a></li>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in5.png'%}"
+												alt="Instagram" /></a></li>
+									<li><a href="#"><img src="{% static 'assets/img/footer/in6.png'%}"
+												alt="Instagram" /></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer-top area end -->
+	<!-- footer-bottom area start -->
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<p>&copy; Sellshop 2021. All Rights Reserved.</p>
+				</div>
+				<div class="col-xs-12 col-sm-6 text-right">
+					<a href="#"><img src="{% static 'assets/img/footer/payment.png'%}" alt="" /></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer-bottom area end -->
+</footer>
+<!-- footer section end -->
